@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Icarus — answers why your codebase is the way it is</title>
+<meta name="description" content="Icarus answers why your code is the way it is, with the evidence on screen — and says 'no one wrote this down' when the reason was never recorded." />
+<meta property="og:title" content="Icarus — the engineering brain that won't bluff" />
+<meta property="og:description" content="Ask why. Get the reason with its receipts, or an honest 'no one wrote this down'." />
+<meta property="og:type" content="website" />
+<style>
+  :root{
+    --paper:#F7F6F2; --ink:#16181D; --muted:#6B6B66; --hair:#DED9CE;
+    --signal:#2F6BFF; --cited:#157A5B; --cited-bg:#DDEFE7;
+    --unknown:#B76E00; --unknown-bg:#FFF1CD; --card:#FCFBF8;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  /* section.wrap, not `section` alone: `.wrap` (0,1,0) outranks `section` (0,0,1),
+     so a bare `section{padding:64px 0}` was silently losing all vertical padding. */
+  section.wrap{padding:64px 24px;border-bottom:2px solid var(--ink)}
+  section.wrap:last-of-type{border-bottom:none}
+
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  h1{font-family:var(--mono);font-size:clamp(30px,5.4vw,52px);font-weight:700;
+     letter-spacing:-.035em;line-height:1.06;margin:0 0 20px;text-wrap:balance}
+  h2{font-family:var(--mono);font-size:clamp(21px,3vw,28px);font-weight:700;
+     letter-spacing:-.025em;margin:0 0 16px;text-wrap:balance}
+  h3{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:-.01em;margin:0 0 6px}
+  p{margin:0 0 16px;max-width:64ch}
+  .lede{font-size:19px;color:var(--muted)}
+  .lede strong{color:var(--ink);font-weight:600}
+  a{color:var(--signal)}
+
+  /* brutalist block: hard offset shadow, no blur — the signature motif */
+  .block{background:var(--card);border:2px solid var(--ink);box-shadow:7px 7px 0 var(--ink);padding:22px}
+  .block.amber{border-color:var(--unknown);box-shadow:7px 7px 0 var(--unknown);background:var(--unknown-bg)}
+
+  .cta{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);
+       font-family:var(--mono);font-size:15px;font-weight:700;text-decoration:none;
+       padding:15px 22px;border:2px solid var(--ink);box-shadow:6px 6px 0 var(--signal)}
+  .cta:hover{box-shadow:3px 3px 0 var(--signal);transform:translate(3px,3px)}
+  .cta:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+  .ctarow{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:26px}
+  .meta{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+  /* the overlay specimen */
+  .shot{max-width:470px;font-family:var(--sans)}
+  .shot .q{font-size:16px;font-weight:600;margin-bottom:10px}
+  .shot .a{font-size:15px;margin-bottom:12px}
+  .excerpt{font-family:var(--mono);font-size:11px;line-height:1.55;color:#2C3A34;
+           border-left:3px solid var(--cited);padding:8px 10px;background:rgba(21,122,91,.06);
+           margin-bottom:8px;overflow-x:auto}
+  .chip{display:inline-block;font-family:var(--mono);font-size:11px;padding:3px 8px;
+        color:var(--cited);border:1.5px solid var(--cited);background:var(--cited-bg);margin-right:6px}
+  .refuse{font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:-.02em;margin:6px 0 10px}
+
+  /* real product screenshots: framed like a brutalist block, no recreation */
+  .specimen{margin:0}
+  .specimen img{display:block;width:100%;height:auto;
+    border:2px solid var(--ink);box-shadow:7px 7px 0 var(--ink)}
+  .specimens{align-items:start}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;margin-top:8px}
+  .steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px}
+  .step{border-top:2px solid var(--ink);padding-top:12px}
+  .step .n{font-family:var(--mono);font-size:11px;color:var(--signal);letter-spacing:.1em}
+
+  ul.plain{margin:0;padding-left:18px}
+  ul.plain li{margin-bottom:8px}
+  code{font-family:var(--mono);font-size:.9em;background:rgba(22,24,29,.06);padding:1px 5px}
+  pre{font-family:var(--mono);font-size:12px;background:var(--card);border:1.5px solid var(--hair);
+      padding:12px 14px;overflow-x:auto;margin:0 0 14px}
+  footer{padding:40px 0 64px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+  /* --- live replay --------------------------------------------------------- */
+  .stage{margin-top:44px;padding:28px 24px;border:1.5px solid var(--hair);
+         background:linear-gradient(150deg,#EDEAE2 0%,#E6E9E7 50%,#EEE7E2 100%)}
+  .pill{max-width:470px;background:var(--card);border:2px solid var(--ink);
+        box-shadow:7px 7px 0 var(--ink);padding:14px 16px}
+  .pillhead{display:flex;align-items:center;gap:10px;min-height:22px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--unknown);flex:none;opacity:.35}
+  .dot.live{opacity:1}
+  #wave{width:150px;height:18px;flex:none}
+  .qtext{font-size:14px;line-height:1.35}
+  .caret{display:inline-block;width:7px;background:var(--ink);height:1em;
+         vertical-align:-2px;margin-left:1px}
+  .pillbody{margin-top:12px;border-top:1.5px solid var(--hair);padding-top:12px}
+  .pillbody .a{font-size:15px;margin-bottom:10px}
+  .pillbody .a.refuse{font-family:var(--mono);font-size:20px;font-weight:700;
+                      letter-spacing:-.02em;color:#8A5200}
+  .reveal{opacity:0;transform:translateY(10px);
+          transition:opacity .5s ease,transform .5s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .cta:hover{transform:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    .caret{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap" style="padding-top:44px">
+  <p class="eyebrow">Icarus · macOS · alpha</p>
+</header>
+
+<section class="wrap">
+  <h1>Why is the code like this?<br />Ask. Get the receipts.</h1>
+  <p class="lede">
+    Icarus reads your repository — the code, the pull requests, the issue threads — and answers
+    questions about <strong>why</strong> things were built the way they were. Every answer shows the
+    evidence it came from. When the reason was never written down, it says so instead of inventing one.
+  </p>
+  <div class="ctarow">
+    <a class="cta" href="Icarus.dmg" download>↓ Download for macOS</a>
+    <span class="meta">Apple silicon · ~950 KB · free alpha</span>
+  </div>
+
+  <!-- Live replay of a REAL exchange. Every string below is verbatim output from
+       Icarus answering about psf/requests, a repo it had not seen before. -->
+  <div class="stage" aria-label="A recorded exchange with Icarus, replayed">
+    <div class="pill" id="pill">
+      <div class="pillhead">
+        <span class="dot" id="dot"></span>
+        <canvas id="wave" width="150" height="18" aria-hidden="true"></canvas>
+        <span class="qtext" id="qtext"></span>
+      </div>
+      <div class="pillbody" id="body" hidden>
+        <div class="a" id="atext"></div>
+        <div id="proof"></div>
+      </div>
+    </div>
+    <p class="meta" id="caption">Replaying a real exchange · <span id="repolabel">psf/requests</span></p>
+  </div>
+</section>
+
+<section class="wrap">
+  <p class="eyebrow">The part nobody else demos</p>
+  <h2>It tells you when it doesn't know.</h2>
+  <p>
+    Ask most assistants why a constant is set to a particular number and you will get a confident,
+    plausible answer. You will not be told it was a guess. Icarus refuses instead — and the refusal is
+    enforced by code, not by asking a model nicely.
+  </p>
+
+  <div class="grid specimens" style="margin-top:30px">
+    <figure class="specimen">
+      <p class="eyebrow">A reason that was recorded</p>
+      <img src="shots/panel_cited.png" width="828" height="872" loading="lazy"
+           alt="The Icarus overlay answering &quot;Why does requests not support HTTP/2?&quot; with a cited answer, quoting issue #6856 and issue #6752." />
+    </figure>
+    <figure class="specimen">
+      <p class="eyebrow">A reason that was never recorded</p>
+      <img src="shots/panel_refusal.png" width="828" height="488" loading="lazy"
+           alt="The Icarus overlay answering &quot;Why is the redirect limit 30?&quot; with an amber &quot;No one wrote this down.&quot; and the list of sources it searched." />
+    </figure>
+  </div>
+  <p class="meta" style="margin-top:22px">
+    Real screenshots of Icarus answering about <code>psf/requests</code>, a repository it had not seen before.
+  </p>
+</section>
+
+<section class="wrap">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><div class="n">01</div><h3>Connect a repository</h3>
+      <p>Sign in with GitHub and point Icarus at a repo. It indexes the source, the pull requests, and
+      the issue discussions — 22 file types across ~17 languages.</p></div>
+    <div class="step"><div class="n">02</div><h3>Hold a key and ask</h3>
+      <p>Hold Right Option anywhere on your Mac and speak, or press ⌘⇧I to type. An overlay appears over
+      whatever you were doing.</p></div>
+    <div class="step"><div class="n">03</div><h3>Read the proof</h3>
+      <p>Icarus speaks a one-line summary and puts the quoted evidence on screen, linked to the exact
+      lines on GitHub. Or it tells you nobody recorded a reason.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>What it will not do</h2>
+  <p>Stated plainly, because a tool that hides its limits is asking to be trusted rather than checked.</p>
+  <ul class="plain">
+    <li><strong>It does not write code for you.</strong> This is not a coding agent.</li>
+    <li><strong>It cannot cite evidence it did not retrieve.</strong> That is enforced deterministically:
+      every citation must resolve to genuinely retrieved evidence with a valid line range, or the answer
+      is refused.</li>
+    <li><strong>It will abstain more than you expect.</strong> If your team never wrote down why, Icarus
+      cannot tell you why. It will say so rather than reconstruct a plausible story.</li>
+    <li><strong>It is an alpha.</strong> Large repositories index slowly, and the app is not yet notarized
+      by Apple — see the install note below.</li>
+  </ul>
+</section>
+
+<section class="wrap">
+  <h2>Your code</h2>
+  <ul class="plain">
+    <li>Your code is <strong>never used to train any model</strong>, and is discarded after each request.</li>
+    <li>Each account's repositories are stored <strong>isolated from every other account's</strong> —
+      never pooled.</li>
+    <li>Disconnecting a repository <strong>deletes its stored index</strong> from the server.</li>
+    <li>Private repositories are cloned with your own GitHub token, held in memory for the duration of
+      the request only — never written to disk or logs.</li>
+  </ul>
+  <p class="meta">
+    Icarus currently requests GitHub's <code>repo</code> scope, which grants access to your private
+    repositories broadly. A GitHub App with per-repository, read-only access is the planned replacement.
+    Said here rather than buried.
+  </p>
+</section>
+
+<section class="wrap">
+  <h2>Install</h2>
+  <p>
+    Icarus is not yet notarized by Apple, so macOS will refuse to open it on the first try. This is a
+    one-time step:
+  </p>
+  <pre>1.  Download and open Icarus.dmg
+2.  Drag Icarus into Applications
+3.  Right-click Icarus in Applications → Open
+4.  Click "Open" in the dialog that appears</pre>
+  <p>After that first launch it opens normally. Microphone and speech permissions are requested the
+     first time you hold the talk key; both can be declined and typed questions still work.</p>
+  <div class="ctarow">
+    <a class="cta" href="Icarus.dmg" download>↓ Download for macOS</a>
+    <span class="meta">Apple silicon · ~950 KB</span>
+  </div>
+</section>
+
+<footer class="wrap">
+  Icarus · a conversational engineering brain that answers <em>why</em> — with receipts, and an honest
+  "no one wrote this down" when there isn't one.
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Both scenes are VERBATIM output from Icarus about psf/requests. Nothing here is
+  // written for the website: if the product's wording changes, this should be
+  // re-captured rather than edited to sound better.
+  var SCENES = [
+    {
+      q: "Why does requests not support HTTP/2?",
+      refuse: false,
+      a: "HTTP/2 is a complex protocol, and it is unlikely that Requests will achieve good " +
+         "support for it in its current form anytime soon. Additionally, support is likely " +
+         "blocked by the lack of HTTP/2 support in the underlying urllib3 library.",
+      excerpt: "Issue #6856: HTTP/2\nI am trying to get HTTP/2 with requests, and I found these:\n> It can: http://hyper.readthedocs.org/en/development/…\n…",
+      refs: ["issue:6856", "issue:6752"]
+    },
+    {
+      q: "Why is the redirect limit 30?",
+      refuse: true,
+      a: "No one wrote this down.",
+      excerpt: "",
+      refs: [],
+      note: "searched 20 sources · 0 recorded reasons"
+    }
+  ];
+
+  var qtext = document.getElementById("qtext"),
+      body  = document.getElementById("body"),
+      atext = document.getElementById("atext"),
+      proof = document.getElementById("proof"),
+      dot   = document.getElementById("dot"),
+      cap   = document.getElementById("caption"),
+      cv    = document.getElementById("wave"),
+      ctx   = cv.getContext("2d");
+
+  // Waveform bars. This illustrates the listening UI on a marketing page -- it is not
+  // claiming to be live microphone data, and it flattens the moment "listening" ends.
+  var BARS = 30, levels = new Array(BARS).fill(0), listening = false, raf = null;
+  function drawWave() {
+    var w = cv.width, h = cv.height, bw = 3, gap = 2;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#157A5B";
+    for (var i = 0; i < BARS; i++) {
+      var bh = Math.max(2, levels[i] * h);
+      var x = i * (bw + gap);
+      if (x + bw > w) break;
+      ctx.fillRect(x, (h - bh) / 2, bw, bh);
+    }
+  }
+  function tickWave() {
+    levels.shift();
+    levels.push(listening ? 0.25 + Math.random() * 0.75 : 0);
+    drawWave();
+    raf = window.setTimeout(tickWave, 70);
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  function renderProof(scene) {
+    var html = "";
+    if (scene.excerpt) {
+      html += '<div class="excerpt">' + escapeHtml(scene.excerpt) + "</div>";
+    }
+    scene.refs.forEach(function (r) {
+      html += '<span class="chip">' + escapeHtml(r) + "</span>";
+    });
+    if (scene.note) {
+      html += '<p class="meta" style="margin:0">' + escapeHtml(scene.note) + "</p>";
+    }
+    proof.innerHTML = html;
+  }
+
+  function showFinal(scene) {
+    qtext.textContent = scene.q;
+    atext.className = "a" + (scene.refuse ? " refuse" : "");
+    atext.textContent = scene.a;
+    renderProof(scene);
+    body.hidden = false;
+    dot.classList.remove("live");
+  }
+
+  if (reduce) {                      // honour the OS setting: no motion, real content
+    showFinal(SCENES[0]);
+    drawWave();
+    return;
+  }
+
+  var scene = 0;
+  function play() {
+    var s = SCENES[scene];
+    body.hidden = true;
+    proof.innerHTML = "";
+    atext.textContent = "";
+    qtext.innerHTML = "";
+    dot.classList.add("live");
+    listening = true;
+    cap.firstChild.nodeValue = "Replaying a real exchange · ";
+
+    var i = 0;
+    (function type() {
+      if (i <= s.q.length) {
+        qtext.innerHTML = escapeHtml(s.q.slice(0, i)) + '<span class="caret"></span>';
+        i++;
+        window.setTimeout(type, 34);
+        return;
+      }
+      qtext.textContent = s.q;
+      listening = false;
+      dot.classList.remove("live");
+      window.setTimeout(function () {
+        showFinal(s);
+        window.setTimeout(function () {
+          scene = (scene + 1) % SCENES.length;
+          play();
+        }, 5200);
+      }, 900);
+    })();
+  }
+
+  tickWave();
+  play();
+
+  // Scroll reveals
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add("in"); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll("section.wrap").forEach(function (el, idx) {
+    if (idx === 0) return;                       // hero is visible on load
+    el.classList.add("reveal");
+    io.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>
