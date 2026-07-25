@@ -221,11 +221,21 @@
     one-time step:
   </p>
   <pre>1.  Download and open Icarus.dmg
-2.  Drag Icarus into Applications
-3.  Right-click Icarus in Applications → Open
-4.  Click "Open" in the dialog that appears</pre>
+2.  Drag Icarus onto the Applications folder beside it
+3.  Open Icarus. macOS will say it "cannot be opened because
+    Apple cannot check it for malicious software" — expected
+4.  Open System Settings → Privacy &amp; Security, scroll down,
+    and click "Open Anyway" beside the Icarus message, then confirm</pre>
+  <p class="meta">
+    If no "Open Anyway" button appears, open Terminal and run
+    <code>xattr -dr com.apple.quarantine /Applications/Icarus.app</code>, then open Icarus normally.
+    (On macOS 14 and earlier you can instead right-click Icarus → Open.)
+  </p>
   <p>After that first launch it opens normally. Microphone and speech permissions are requested the
      first time you hold the talk key; both can be declined and typed questions still work.</p>
+  <p>Stuck, or something behaved oddly? Email
+     <a href="mailto:ayushghosh2015@gmail.com?subject=Icarus%20beta%20feedback">ayushghosh2015@gmail.com</a>.
+     This is an early beta — reports of what broke are genuinely useful.</p>
   <div class="ctarow">
     <a class="cta" href="Icarus.dmg" download>↓ Download for macOS</a>
     <span class="meta">Apple silicon · ~950 KB</span>
@@ -233,6 +243,10 @@
 </section>
 
 <footer class="wrap">
+  <p style="margin:0 0 12px">
+    Beta feedback, bugs, and questions →
+    <a href="mailto:ayushghosh2015@gmail.com?subject=Icarus%20beta%20feedback">ayushghosh2015@gmail.com</a>
+  </p>
   Icarus · a conversational engineering brain that answers <em>why</em> — with receipts, and an honest
   "no one wrote this down" when there isn't one.
 </footer>
