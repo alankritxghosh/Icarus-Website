@@ -217,19 +217,37 @@
 <section class="wrap">
   <h2>Install</h2>
   <p>
-    Icarus is not yet notarized by Apple, so macOS will refuse to open it on the first try. This is a
-    one-time step:
+    Icarus is not notarized by Apple — notarization requires a paid Developer ID this alpha does not
+    have yet, so macOS cannot vouch for it. Rather than paper over that: both install paths are below,
+    along with the checksum, so you can verify what you downloaded yourself.
   </p>
-  <pre>1.  Download and open Icarus.dmg
+
+  <p class="eyebrow" style="margin-top:28px">Terminal — one line, no dialogs</p>
+  <pre>curl -fsSL https://icarus-website-kappa.vercel.app/install.sh | sh</pre>
+  <p class="meta">
+    A browser tags its downloads as quarantined, and that tag is what triggers the "unverified
+    developer" dialog. <code>curl</code> does not tag them, so this path never hits it. To be clear
+    about what that means: it skips the <em>prompt</em>, not a real inspection — macOS has not checked
+    this app on either path. <a href="install.sh">Read the script</a> before piping it to a shell.
+  </p>
+
+  <p class="eyebrow" style="margin-top:28px">Or the disk image, by hand</p>
+  <pre>1.  Download Icarus.dmg below and open it
 2.  Drag Icarus onto the Applications folder beside it
-3.  Open Icarus. macOS will say it "cannot be opened because
-    Apple cannot check it for malicious software" — expected
-4.  Open System Settings → Privacy &amp; Security, scroll down,
-    and click "Open Anyway" beside the Icarus message, then confirm</pre>
+3.  Open Icarus. macOS says it "cannot be opened because Apple
+    cannot check it for malicious software" — this is expected
+4.  System Settings → Privacy &amp; Security, scroll down, then
+    click "Open Anyway" beside the Icarus message and confirm</pre>
   <p class="meta">
     If no "Open Anyway" button appears, open Terminal and run
     <code>xattr -dr com.apple.quarantine /Applications/Icarus.app</code>, then open Icarus normally.
     (On macOS 14 and earlier you can instead right-click Icarus → Open.)
+  </p>
+  <p class="meta">
+    SHA-256 of <code>Icarus.dmg</code> —
+    <code>a899cf2e338660cf02d661c06348117e456cbc7196d95414613f1c7081e2f795</code><br />
+    Check yours with <code>shasum -a 256 Icarus.dmg</code>. This detects a corrupted or altered
+    download; it is not a substitute for Apple's signature, and does not pretend to be.
   </p>
   <p>After that first launch it opens normally. Microphone and speech permissions are requested the
      first time you hold the talk key; both can be declined and typed questions still work.</p>
