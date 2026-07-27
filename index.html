@@ -222,14 +222,26 @@
     along with the checksum, so you can verify what you downloaded yourself.
   </p>
 
-  <p class="eyebrow" style="margin-top:28px">Terminal — one line, no dialogs</p>
-  <pre>curl -fsSL https://icarus-website-kappa.vercel.app/install.sh | sh</pre>
+  <p class="eyebrow" style="margin-top:28px">Terminal — recommended</p>
+  <pre>curl -fsSLO https://raw.githubusercontent.com/alankritxghosh/Icarus-Website/main/install.sh
+less install.sh        # 80 lines, half of them comments — read it
+sh install.sh</pre>
   <p class="meta">
-    A browser tags its downloads as quarantined, and that tag is what triggers the "unverified
-    developer" dialog. <code>curl</code> does not tag them, so this path never hits it. To be clear
-    about what that means: it skips the <em>prompt</em>, not a real inspection — macOS has not checked
-    this app on either path. <a href="install.sh">Read the script</a> before piping it to a shell.
+    Three steps rather than one, deliberately: piping a script from the internet straight into a shell
+    means running code you have not read, and you have no reason to extend us that. It is fetched from
+    <a href="https://github.com/alankritxghosh/Icarus-Website/blob/main/install.sh">its source on GitHub</a>,
+    so you can also read <a href="https://github.com/alankritxghosh/Icarus-Website/commits/main/install.sh">every
+    change ever made to it</a> instead of trusting whatever a marketing site serves you today.
   </p>
+  <p class="meta">
+    Why the terminal at all: a browser tags its downloads as quarantined, and that tag is what triggers
+    the "unverified developer" dialog. <code>curl</code> does not tag them, so this path never meets it.
+    To be plain about what that means — it skips the <em>prompt</em>, not a real inspection. macOS has
+    not checked this app on either path.
+  </p>
+
+  <p class="eyebrow" style="margin-top:28px">Or in one line, if you would rather</p>
+  <pre>curl -fsSL https://raw.githubusercontent.com/alankritxghosh/Icarus-Website/main/install.sh | sh</pre>
 
   <p class="eyebrow" style="margin-top:28px">Or the disk image, by hand</p>
   <pre>1.  Download Icarus.dmg below and open it
