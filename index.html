@@ -240,6 +240,16 @@ sh install.sh</pre>
     not checked this app on either path.
   </p>
 
+  <p class="eyebrow" style="margin-top:28px">Or with Homebrew</p>
+  <pre>brew install --cask alankritxghosh/icarus/icarus
+xattr -dr com.apple.quarantine /Applications/Icarus.app</pre>
+  <p class="meta">
+    Both lines are needed: Homebrew quarantines what it downloads and a cask cannot waive that for
+    you, so without the second line macOS still refuses to open it. In exchange you get
+    <code>brew upgrade</code>, a clean <code>brew uninstall</code>, and a checksum Homebrew verifies
+    itself. The <a href="https://github.com/alankritxghosh/homebrew-icarus">tap is public</a>.
+  </p>
+
   <p class="eyebrow" style="margin-top:28px">Or in one line, if you would rather</p>
   <pre>curl -fsSL https://raw.githubusercontent.com/alankritxghosh/Icarus-Website/main/install.sh | sh</pre>
 
