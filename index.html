@@ -201,9 +201,20 @@
   <h2>Your code</h2>
   <ul class="plain">
     <li>Your code is <strong>never used to train any model</strong>, and is discarded after each request.</li>
-    <li>Each account's repositories are stored <strong>isolated from every other account's</strong> —
-      never pooled.</li>
-    <li>Disconnecting a repository <strong>deletes its stored index</strong> from the server.</li>
+    <li>A repository is indexed <strong>once and shared with the people who can already read it on
+      GitHub</strong> — so a team gets one brain instead of one copy each. Nobody else can reach it.</li>
+    <li>Icarus <strong>asks GitHub on every request</strong> whether you can still read that repository,
+      rather than keeping its own list of who works where. A list like that goes stale; GitHub does
+      not. When someone's access is revoked there, they lose access here <strong>within five
+      minutes</strong>.</li>
+    <li>One company's code and questions are <strong>never mixed with another's</strong>.</li>
+    <li><strong>Questions are recorded</strong> against the repository they were asked about: the question,
+      whether Icarus could answer it, and what it cited. That record is what produces the list of
+      things your team needed to know and nobody had written down.
+      <strong>Who asked is not recorded</strong> — this maps what your organisation hasn't documented,
+      it does not track who asked what. Answers themselves are not stored.</li>
+    <li>Disconnecting a repository <strong>forgets your connection to it</strong>. It does not delete the
+      shared index, because your colleagues may still be using it.</li>
     <li>Private repositories are cloned with your own GitHub token, held in memory for the duration of
       the request only — never written to disk or logs.</li>
   </ul>
