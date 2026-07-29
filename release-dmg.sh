@@ -98,6 +98,41 @@ VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$PLIS
 hdiutil detach "$MNT" -quiet
 
 cp "$SRC" Icarus.dmg
+
+# Regenerate the Sparkle update feed. Without this, a published DMG is
+# invisible to every already-installed copy of Icarus -- they poll appcast.xml
+# and would keep seeing the previous release forever, which looks exactly like
+# "updates don't work" and is impossible to notice from this side.
+#
+# generate_appcast signs each build with the PRIVATE EdDSA key in the login
+# keychain, so this can only run on the machine that holds it. It lives in the
+# Icarus repo's SwiftPM artifacts; point ICARUS_APPCAST_TOOL at it to override.
+APPCAST_TOOL="${ICARUS_APPCAST_TOOL:-}"
+if [ -z "$APPCAST_TOOL" ]; then
+  APPCAST_TOOL="$(find "$(dirname "$SRC")/.." -type f -name generate_appcast -perm -u+x -print -quit 2>/dev/null || true)"
+fi
+if [ -n "$APPCAST_TOOL" ] && [ -x "$APPCAST_TOOL" ]; then
+  FEED_DIR="$(mktemp -d)"
+  cp Icarus.dmg "$FEED_DIR/"
+  # Carry the existing feed in so older releases keep their entries and their
+  # signatures rather than being silently dropped from the channel.
+  [ -f appcast.xml ] && cp appcast.xml "$FEED_DIR/"
+  if "$APPCAST_TOOL" --download-url-prefix "https://icarus-website-kappa.vercel.app/" "$FEED_DIR" >/dev/null 2>&1; then
+    cp "$FEED_DIR/appcast.xml" appcast.xml
+    STAMPED_FEED="appcast.xml"
+  else
+    echo "error: could not sign the update feed -- is the Sparkle private key" >&2
+    echo "       in this machine's login keychain? Publishing a DMG without a" >&2
+    echo "       matching appcast entry means nobody can update to it." >&2
+    rm -rf "$FEED_DIR"
+    exit 1
+  fi
+  rm -rf "$FEED_DIR"
+else
+  echo "warning: generate_appcast not found -- appcast.xml NOT regenerated," >&2
+  echo "         so installed copies will not be offered this build." >&2
+  STAMPED_FEED="NOT UPDATED"
+fi
 SHA="$(shasum -a 256 Icarus.dmg | cut -d ' ' -f 1)"
 KB="$(( ($(wc -c < Icarus.dmg) + 512) / 1024 ))"
 
@@ -138,6 +173,7 @@ echo "  brain:    $BRAIN"
 echo "  size:     ${KB} KB"
 echo "  sha256:   $SHA"
 echo "  stamped:  install.sh, index.html"
+echo "  feed:     ${STAMPED_FEED:-unchanged}"
 echo "  cask:     $STAMPED_CASK"
 echo
 if [ "$SKIP_CASK" -eq 0 ]; then

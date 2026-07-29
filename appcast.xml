@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Icarus</title>
+        <item>
+            <title>0.1.0</title>
+            <pubDate>Wed, 29 Jul 2026 22:41:31 +0530</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://icarus-website-kappa.vercel.app/Icarus.dmg" length="2217232" type="application/octet-stream" sparkle:edSignature="G0jMTbvbWdK48xj78J5yWt8lSJvlarZXytliB8xGBQi+B1JfgElyC23qUrpv5jOCkih55tU9u7O2QvcHtpA5CQ=="/>
+        </item>
+    </channel>
+</rss>
