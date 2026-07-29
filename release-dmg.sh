@@ -114,9 +114,12 @@ fi
 if [ -n "$APPCAST_TOOL" ] && [ -x "$APPCAST_TOOL" ]; then
   FEED_DIR="$(mktemp -d)"
   cp Icarus.dmg "$FEED_DIR/"
-  # Carry the existing feed in so older releases keep their entries and their
-  # signatures rather than being silently dropped from the channel.
-  [ -f appcast.xml ] && cp appcast.xml "$FEED_DIR/"
+  # Deliberately NOT carrying the previous appcast forward. Every release is
+  # published to the SAME URL (/Icarus.dmg), so an older entry would keep
+  # pointing at that URL while the bytes behind it are now a newer build --
+  # an item whose length and signature no longer describe what downloading it
+  # actually gets you. One DMG URL means one entry. If multiple versions ever
+  # need to stay downloadable, the filename has to carry the version first.
   if "$APPCAST_TOOL" --download-url-prefix "https://icarus-website-kappa.vercel.app/" "$FEED_DIR" >/dev/null 2>&1; then
     cp "$FEED_DIR/appcast.xml" appcast.xml
     STAMPED_FEED="appcast.xml"
