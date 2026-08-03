@@ -3,13 +3,13 @@
     <channel>
         <title>Icarus</title>
         <item>
-            <title>0.1.0</title>
-            <pubDate>Thu, 30 Jul 2026 17:56:38 +0530</pubDate>
-            <sparkle:version>3</sparkle:version>
-            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+            <title>0.1.1</title>
+            <pubDate>Tue, 04 Aug 2026 02:46:06 +0530</pubDate>
+            <sparkle:version>4</sparkle:version>
+            <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://icarus-website-kappa.vercel.app/Icarus.dmg" length="2279584" type="application/octet-stream" sparkle:edSignature="YaLrMmF9V9QFDSuocfKrKIOlS7DJyV25Bp7DQ+r8x5RuPncg1CFc4dOxliVz3fcdVD5nT4aLC6hLPgPSITWICg=="/>
+            <enclosure url="https://icarus-website-kappa.vercel.app/Icarus.dmg" length="2310688" type="application/octet-stream" sparkle:edSignature="5dhgWny2wEPgx5LTOdyLCfNLMiSqQfmfLZsLTMtKt3uH+R2An+4zF1DjRMnqcyafrIQSilSHjN9qysHljKP7AQ=="/>
         </item>
     </channel>
 </rss>
