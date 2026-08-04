@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Icarus on tldraw/tldraw</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--paper:#F7F6F2;--card:#FFF;--ink:#16181D;--muted:#6B7280;--line:#16181D;
+--hair:#E4E2DB;--accent:#2F6BFF;--grounded:#0F7B53;--unknown:#9A6B00;
+--mono:"Berkeley Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);}
+.wrap{max-width:820px;margin:0 auto;padding:44px 24px 90px;}
+.brand{display:flex;align-items:center;gap:9px;font-weight:650;font-size:18px;margin-bottom:26px;}
+.mark{display:inline-flex;align-items:flex-end;gap:2px;height:22px;}
+.mark i{width:3px;background:var(--ink);border-radius:1px;}
+.mark .b1{height:11px}.mark .b2{height:18px}.mark .stem{height:22px;background:var(--accent)}
+.mark .b4{height:14px}.mark .b5{height:8px}
+h1{font-size:27px;font-weight:650;margin:0 0 6px;letter-spacing:-.01em;}
+h1 .repo{font-family:var(--mono);font-size:24px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+.panel{border:1.5px solid var(--line);border-radius:4px;background:#fff;padding:14px 16px;margin:0 0 30px;}
+.panel .row{font:12px var(--mono);margin:0 0 7px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
+.panel .row:last-child{margin-bottom:0}
+.tag{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;
+background:var(--ink);padding:1px 6px;border-radius:3px;flex:none;}
+.tag.ok{background:var(--grounded)}
+.label{font:600 11px var(--sans);letter-spacing:.10em;text-transform:uppercase;margin:0 0 10px;color:var(--muted);}
+details{border:1.5px solid var(--line);border-radius:4px;background:var(--card);
+box-shadow:5px 5px 0 var(--line);margin:0 0 18px;}
+details[data-verdict="unknown"]{background:#FBF7EC}
+summary{cursor:pointer;list-style:none;padding:17px 20px;font-size:17px;font-weight:600;
+display:flex;gap:12px;align-items:flex-start;}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:#EFEEE8}
+details[data-verdict="unknown"] summary:hover{background:#F6EFDF}
+.pill{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;flex:none;
+padding:3px 7px;border-radius:3px;border:1.5px solid var(--grounded);color:var(--grounded);margin-top:3px;}
+.pill.unknown{border-color:var(--unknown);color:var(--unknown)}
+.body{padding:0 20px 20px;border-top:1.5px solid var(--hair);}
+.prose{font-size:17px;line-height:1.6;margin:16px 0 18px;white-space:pre-wrap;}
+.prose code{font-family:var(--mono);font-size:.92em;background:#EFEEE8;padding:1px 5px;border-radius:3px;}
+.hero{font-size:26px;font-weight:650;margin:16px 0 8px;line-height:1.2;}
+.heronote{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:540px;}
+.cites{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:13px;
+border:1.5px solid var(--line);border-radius:4px;padding:5px 10px;background:#fff;
+color:var(--ink);text-decoration:none;}
+.chip:hover{box-shadow:2px 2px 0 var(--accent)}
+.chip .src{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;
+background:var(--ink);padding:1px 5px;border-radius:3px;}
+.chip.pr .src{background:var(--accent)}.chip.issue .src{background:var(--unknown)}
+.chip.code .src,.chip.doc .src,.chip.config .src{background:var(--grounded)}
+.chip.commit .src{background:#5B4B8A}
+.searched{border:1.5px solid var(--line);border-radius:4px;background:#fff;padding:12px 14px;}
+.searched .k{font:600 11px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.searched .v{font-family:var(--mono);font-size:12.5px;margin-top:7px;line-height:1.9;word-break:break-word;}
+.ask{margin-top:34px;border-top:1.5px solid var(--hair);padding-top:26px;}
+.askrow{display:flex;gap:10px;}
+.askrow input{flex:1;padding:13px 15px;border:1.5px solid var(--line);border-radius:4px;
+background:#fff;font-size:16px;font-family:var(--sans);color:var(--muted);}
+.askrow button{padding:13px 22px;border:1.5px solid var(--line);border-radius:4px;
+background:var(--accent);color:#fff;font-weight:650;font-size:15px;box-shadow:3px 3px 0 var(--line);}
+.askrow input:disabled,.askrow button:disabled{opacity:.55}
+.asknote{font-size:14px;color:var(--muted);margin:12px 0 0;}
+footer{margin-top:40px;border-top:1.5px solid var(--hair);padding-top:16px;
+font-size:13px;color:var(--muted);line-height:1.7;}
+@media (max-width:560px){.wrap{padding:28px 16px 70px}h1{font-size:22px}h1 .repo{font-size:18px}}
+</style></head><body><div class="wrap">
+<div class="brand"><span class="mark"><i class="b1"></i><i class="b2"></i><i class="stem"></i><i class="b4"></i><i class="b5"></i></span><span>Icarus</span></div>
+<h1>Icarus, reading <span class="repo">tldraw/tldraw</span></h1>
+<p class="sub">Real questions, answered from your own repository. Every answer links to the
+evidence it used. 6 of 9 were answerable — the rest say so.</p>
+<div class="panel">
+  <div class="row"><span class="tag ok">indexed</span><span>5,000 pr  ·  2,631 issue  ·  6,144 commit  ·  3,689 code  ·  588 doc  ·  110 config</span></div>
+  <div class="row"><span class="tag">commit</span><span>04044ed9e96d</span></div>
+</div>
+<p class="label">Questions a new contributor would ask</p>
+<details data-verdict="answer"><summary><span class="pill">answered</span><span>Why did tldraw root the reactions query at comment rather than comment_reaction?</span></summary><div class="body"><p class="prose">Rooting the query at <code>comment</code> ensures the file-access gate remains one correlated-subquery hop from the root, preventing the query from traversing large <code>file_state</code> and <code>group_file</code> tables. This optimization reduces materialization time from ~150s to ~162ms, preventing the sync connection from timing out.</p><p class="label">Evidence</p><div class="cites"><a class="chip commit" href="https://github.com/tldraw/tldraw/commit/a8e53e1b5c2ea9231721504a756f64b8af8c840e" target="_blank" rel="noopener"><span class="src">commit</span><span>a8e53e1</span></a><a class="chip pr" href="https://github.com/tldraw/tldraw/pull/9840" target="_blank" rel="noopener"><span class="src">pr</span><span>9840</span></a></div></div></details><details data-verdict="unknown"><summary><span class="pill unknown">unknown</span><span>Why does tldraw render shapes as HTML elements instead of drawing to a single canvas?</span></summary><div class="body"><p class="hero">No one wrote this down.</p><p class="heronote">Icarus found no recorded reason, so it did not invent one. This is the whole point: it answers from evidence or it abstains.</p><div class="searched"><div class="k">What it searched</div><div class="v">issue:7869<br>issue:9775<br>code:apps/examples/src/examples/use-cases/many-shapes/ManyShapesExample.tsx<br>issue:7214<br>code:apps/examples/src/examples/editor-api/create-arrow/CreateArrowExample.tsx<br>issue:5651<br>code:apps/examples/src/examples/editor-api/custom-overlay/CustomOverlayExample.tsx<br>code:apps/examples/src/examples/ui/custom-renderer/CustomRendererExample.tsx</div></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why is the Zero auth refresh scheduled from the token&#x27;s own expiry?</span></summary><div class="body"><p class="prose">The Zero auth refresh is scheduled from the token&#x27;s own expiry to ensure the refresh cadence follows the session-token lifetime rather than a hardcoded guess, preventing Zero connections from being torn down by tokens that expire while in use.</p><p class="label">Evidence</p><div class="cites"><a class="chip commit" href="https://github.com/tldraw/tldraw/commit/fa3dda9f78db7a09cc68536baf4d24c891917ab7" target="_blank" rel="noopener"><span class="src">commit</span><span>fa3dda9</span></a><a class="chip code" href="https://github.com/tldraw/tldraw/blob/04044ed9e96dda9e907dbac85400e38f379a994b/apps/dotcom/client/src/tla/app/TldrawApp.ts#L234-L533" target="_blank" rel="noopener"><span class="src">code</span><span>apps/dotcom/client/src/tla/app/TldrawApp.ts#L234-L533</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why were the Zero feature flags and the frontend polyfill removed?</span></summary><div class="body"><p class="prose">The Zero feature flags and frontend polyfill were removed because production has been using the real Zero client 100% of the time, making the second, unmaintained sync path unnecessary.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/tldraw/tldraw/pull/9564" target="_blank" rel="noopener"><span class="src">pr</span><span>9564</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does the comment tool stay active while the composer is open?</span></summary><div class="body"><p class="prose">The comment tool is kept active while the composer is open to ensure the right-hand panels remain stable during the placement interaction. This prevents the style panel from materializing mid-interaction and ensures the sidebar remains closed for the duration of the placement.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/tldraw/tldraw/pull/9837" target="_blank" rel="noopener"><span class="src">pr</span><span>9837</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why are orphaned preview certificate packs pruned and the deletion grace period dropped?</span></summary><div class="body"><p class="prose">Orphaned certificate packs are pruned to stop SSL certificates from piling up on the tldraw.xyz zone, as deleting a worker with a custom domain leaves its edge certificate behind. The 2-day deletion grace period was removed so that preview infrastructure is pruned on the first nightly run after a PR closes.</p><p class="label">Evidence</p><div class="cites"><a class="chip commit" href="https://github.com/tldraw/tldraw/commit/04044ed9e96dda9e907dbac85400e38f379a994b" target="_blank" rel="noopener"><span class="src">commit</span><span>04044ed</span></a><a class="chip pr" href="https://github.com/tldraw/tldraw/pull/9845" target="_blank" rel="noopener"><span class="src">pr</span><span>9845</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does tldraw use a reactive signals store instead of React state for the editor?</span></summary><div class="body"><p class="prose">tldraw uses a reactive signals store because it provides fine-grained reactivity, high performance through lazy evaluation and efficient dependency tracking, and automatic updates for derived values and side effects.</p><p class="label">Evidence</p><div class="cites"><a class="chip doc" href="https://github.com/tldraw/tldraw/blob/04044ed9e96dda9e907dbac85400e38f379a994b/packages/state/README.md" target="_blank" rel="noopener"><span class="src">doc</span><span>packages/state/README.md</span></a></div></div></details><details data-verdict="unknown"><summary><span class="pill unknown">unknown</span><span>Why does the dotcom app use Zero for syncing?</span></summary><div class="body"><p class="hero">No one wrote this down.</p><p class="heronote">Icarus found no recorded reason, so it did not invent one. This is the whole point: it answers from evidence or it abstains.</p><div class="searched"><div class="k">What it searched</div><div class="v">commit:846e39a811fbaa43199d1e7e9a424413225a9f80<br>issue:8660<br>pr:5551<br>commit:081249b0b84221e9dfee1fd7e50d8a9830ad1978<br>pr:9186<br>pr:9842<br>commit:87b69cb3160083f491eaa06ab720957c05765a48<br>commit:4d855258595bdbdf9bd5b9e083c50a0abc2a400d</div></div></div></details><details data-verdict="unknown"><summary><span class="pill unknown">unknown</span><span>Why is the project called tldraw?</span></summary><div class="body"><p class="hero">No one wrote this down.</p><p class="heronote">Icarus found no recorded reason, so it did not invent one. This is the whole point: it answers from evidence or it abstains.</p><div class="searched"><div class="k">What it searched</div><div class="v">doc:apps/dotcom/client/README.md<br>doc:packages/namespaced-tldraw/README.md<br>doc:packages/sync-core/README.md<br>doc:packages/sync/README.md<br>doc:packages/create-tldraw/README.md<br>doc:apps/vscode/editor/README.md<br>issue:9422<br>commit:1e59e27864bbaf4a33ef60e175195d3c5f04a497</div></div></div></details>
+<div class="ask">
+  <div class="askrow">
+    <input disabled placeholder="Ask something else about tldraw/tldraw…">
+    <button disabled>Ask</button>
+  </div>
+  <p class="asknote">This page is pre-computed, so it opens instantly and costs you nothing.
+  Reply to my email and I&rsquo;ll open a live session against your repo where you can
+  ask it anything.</p>
+</div>
+<footer>
+Answers on this page are unedited output from the same pipeline the product runs —
+retrieve, cite-or-abstain, then a deterministic gate that drops any answer whose citations
+aren&rsquo;t genuinely retrieved. Nothing here was written by hand.<br>
+Your code was read to answer these questions and discarded. It was not used for training.
+</footer>
+</div></body></html>

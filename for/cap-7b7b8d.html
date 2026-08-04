@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Icarus on CapSoftware/Cap</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--paper:#F7F6F2;--card:#FFF;--ink:#16181D;--muted:#6B7280;--line:#16181D;
+--hair:#E4E2DB;--accent:#2F6BFF;--grounded:#0F7B53;--unknown:#9A6B00;
+--mono:"Berkeley Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);}
+.wrap{max-width:820px;margin:0 auto;padding:44px 24px 90px;}
+.brand{display:flex;align-items:center;gap:9px;font-weight:650;font-size:18px;margin-bottom:26px;}
+.mark{display:inline-flex;align-items:flex-end;gap:2px;height:22px;}
+.mark i{width:3px;background:var(--ink);border-radius:1px;}
+.mark .b1{height:11px}.mark .b2{height:18px}.mark .stem{height:22px;background:var(--accent)}
+.mark .b4{height:14px}.mark .b5{height:8px}
+h1{font-size:27px;font-weight:650;margin:0 0 6px;letter-spacing:-.01em;}
+h1 .repo{font-family:var(--mono);font-size:24px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+.panel{border:1.5px solid var(--line);border-radius:4px;background:#fff;padding:14px 16px;margin:0 0 30px;}
+.panel .row{font:12px var(--mono);margin:0 0 7px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
+.panel .row:last-child{margin-bottom:0}
+.tag{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;
+background:var(--ink);padding:1px 6px;border-radius:3px;flex:none;}
+.tag.ok{background:var(--grounded)}
+.label{font:600 11px var(--sans);letter-spacing:.10em;text-transform:uppercase;margin:0 0 10px;color:var(--muted);}
+details{border:1.5px solid var(--line);border-radius:4px;background:var(--card);
+box-shadow:5px 5px 0 var(--line);margin:0 0 18px;}
+details[data-verdict="unknown"]{background:#FBF7EC}
+summary{cursor:pointer;list-style:none;padding:17px 20px;font-size:17px;font-weight:600;
+display:flex;gap:12px;align-items:flex-start;}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:#EFEEE8}
+details[data-verdict="unknown"] summary:hover{background:#F6EFDF}
+.pill{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;flex:none;
+padding:3px 7px;border-radius:3px;border:1.5px solid var(--grounded);color:var(--grounded);margin-top:3px;}
+.pill.unknown{border-color:var(--unknown);color:var(--unknown)}
+.body{padding:0 20px 20px;border-top:1.5px solid var(--hair);}
+.prose{font-size:17px;line-height:1.6;margin:16px 0 18px;white-space:pre-wrap;}
+.prose code{font-family:var(--mono);font-size:.92em;background:#EFEEE8;padding:1px 5px;border-radius:3px;}
+.hero{font-size:26px;font-weight:650;margin:16px 0 8px;line-height:1.2;}
+.heronote{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:540px;}
+.cites{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:13px;
+border:1.5px solid var(--line);border-radius:4px;padding:5px 10px;background:#fff;
+color:var(--ink);text-decoration:none;}
+.chip:hover{box-shadow:2px 2px 0 var(--accent)}
+.chip .src{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;
+background:var(--ink);padding:1px 5px;border-radius:3px;}
+.chip.pr .src{background:var(--accent)}.chip.issue .src{background:var(--unknown)}
+.chip.code .src,.chip.doc .src,.chip.config .src{background:var(--grounded)}
+.chip.commit .src{background:#5B4B8A}
+.searched{border:1.5px solid var(--line);border-radius:4px;background:#fff;padding:12px 14px;}
+.searched .k{font:600 11px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.searched .v{font-family:var(--mono);font-size:12.5px;margin-top:7px;line-height:1.9;word-break:break-word;}
+.ask{margin-top:34px;border-top:1.5px solid var(--hair);padding-top:26px;}
+.askrow{display:flex;gap:10px;}
+.askrow input{flex:1;padding:13px 15px;border:1.5px solid var(--line);border-radius:4px;
+background:#fff;font-size:16px;font-family:var(--sans);color:var(--muted);}
+.askrow button{padding:13px 22px;border:1.5px solid var(--line);border-radius:4px;
+background:var(--accent);color:#fff;font-weight:650;font-size:15px;box-shadow:3px 3px 0 var(--line);}
+.askrow input:disabled,.askrow button:disabled{opacity:.55}
+.asknote{font-size:14px;color:var(--muted);margin:12px 0 0;}
+footer{margin-top:40px;border-top:1.5px solid var(--hair);padding-top:16px;
+font-size:13px;color:var(--muted);line-height:1.7;}
+@media (max-width:560px){.wrap{padding:28px 16px 70px}h1{font-size:22px}h1 .repo{font-size:18px}}
+</style></head><body><div class="wrap">
+<div class="brand"><span class="mark"><i class="b1"></i><i class="b2"></i><i class="stem"></i><i class="b4"></i><i class="b5"></i></span><span>Icarus</span></div>
+<h1>Icarus, reading <span class="repo">CapSoftware/Cap</span></h1>
+<p class="sub">Real questions, answered from your own repository. Every answer links to the
+evidence it used. 6 of 9 were answerable — the rest say so.</p>
+<div class="panel">
+  <div class="row"><span class="tag ok">indexed</span><span>1,349 pr  ·  713 issue  ·  7,910 commit  ·  3,667 code  ·  55 doc  ·  125 config</span></div>
+  <div class="row"><span class="tag">commit</span><span>c6363f2f439f</span></div>
+</div>
+<p class="label">Questions a new contributor would ask</p>
+<details data-verdict="answer"><summary><span class="pill">answered</span><span>Why do organization video downloads require an explicit share?</span></summary><div class="body"><p class="prose">Organization video downloads require an explicit share because the previous implementation was too broad, allowing any member of the owner&#x27;s organization to download a video even if it was not explicitly shared with them. This change aligns download permissions with view permissions, which already require an explicit <code>sharedVideos</code> row for an organization or space.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/CapSoftware/Cap/pull/2067" target="_blank" rel="noopener"><span class="src">pr</span><span>2067</span></a><a class="chip pr" href="https://github.com/CapSoftware/Cap/pull/2038" target="_blank" rel="noopener"><span class="src">pr</span><span>2038</span></a></div></div></details><details data-verdict="unknown"><summary><span class="pill unknown">unknown</span><span>Why did Cap migrate transcription from Deepgram to AssemblyAI?</span></summary><div class="body"><p class="hero">No one wrote this down.</p><p class="heronote">Icarus found no recorded reason, so it did not invent one. This is the whole point: it answers from evidence or it abstains.</p><div class="searched"><div class="k">What it searched</div><div class="v">pr:2048<br>commit:2486ec74ccda64e75a34d1b9367e65a49768d3b4<br>pr:1630<br>code:apps/web/workflows/live-transcribe.ts#L1-L300<br>commit:d2ffea47c8cf6f204c30267293a4fa6810b7056b<br>commit:6b40913f8447c118b9635489438050d873170856<br>code:apps/web/__tests__/e2e/live-transcribe-local-e2e.test.ts<br>commit:a61a8f6171b30741a68fc52389d8179d1c687268</div></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why did Cap migrate analytics from PostHog to self-hosted OpenPanel?</span></summary><div class="body"><p class="prose">Cap migrated to self-hosted OpenPanel to enable first-party proxying of analytics (making them ad-blocker resistant), improve server-side event delivery performance by moving it off the response path, and resolve desktop credential exposure issues.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/CapSoftware/Cap/pull/2063" target="_blank" rel="noopener"><span class="src">pr</span><span>2063</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why do login OTP codes expire after 10 minutes?</span></summary><div class="body"><p class="prose">Login OTP codes expire after 10 minutes to match the expiration time already advertised to users in the OTP email and development console, and to reduce the security window for potential brute-force attacks.</p><p class="label">Evidence</p><div class="cites"><a class="chip commit" href="https://github.com/CapSoftware/Cap/commit/36f8c4920a1dd33ed11b4c3da4053a2decf16341" target="_blank" rel="noopener"><span class="src">commit</span><span>36f8c49</span></a><a class="chip pr" href="https://github.com/CapSoftware/Cap/pull/2068" target="_blank" rel="noopener"><span class="src">pr</span><span>2068</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why did Cap stop closing the picker webview before taking a window screenshot?</span></summary><div class="body"><p class="prose">Cap stopped closing the picker webview before taking a window screenshot because the previous behavior destroyed the webview before the <code>takeScreenshot</code> IPC call could be dispatched, causing the screenshot to silently fail on Windows.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/CapSoftware/Cap/pull/2071" target="_blank" rel="noopener"><span class="src">pr</span><span>2071</span></a><a class="chip issue" href="https://github.com/CapSoftware/Cap/issues/2046" target="_blank" rel="noopener"><span class="src">issue</span><span>2046</span></a></div></div></details><details data-verdict="unknown"><summary><span class="pill unknown">unknown</span><span>Why is the desktop recorder written in Rust instead of TypeScript?</span></summary><div class="body"><p class="hero">No one wrote this down.</p><p class="heronote">Icarus found no recorded reason, so it did not invent one. This is the whole point: it answers from evidence or it abstains.</p><div class="searched"><div class="k">What it searched</div><div class="v">code:scripts/verify-recording-pipeline.mjs#L1-L300<br>commit:1ebca09c17dc0f17060506c2251dc6093e5f7d18<br>code:packages/sdk-recorder/src/types.ts<br>code:apps/web/app/(org)/dashboard/caps/components/web-recorder-dialog/useSurfaceDetection.ts<br>code:apps/web/app/(org)/dashboard/caps/components/web-recorder-dialog/useMediaRecorderSetup.ts<br>code:apps/desktop/scripts/desktop-display-transport-benchmark.js#L1-L300<br>code:apps/cli/src/recordings.rs<br>code:packages/recorder-core/src/recorder-types.ts</div></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does the transcript editor edit videos by word rather than by timestamp?</span></summary><div class="body"><p class="prose">The transcript editor uses word-level editing because stored transcripts are immutable and expressed in the original media timeline, allowing the system to remap captions and perform edits by remapping these words through the video&#x27;s cumulative edit specification rather than re-transcribing.</p><p class="label">Evidence</p><div class="cites"><a class="chip code" href="https://github.com/CapSoftware/Cap/blob/c6363f2f439f39ff86215bab3bf05e44fa93b8a6/apps/web/lib/edit-transcript.ts#L1-L300" target="_blank" rel="noopener"><span class="src">code</span><span>apps/web/lib/edit-transcript.ts#L1-L300</span></a><a class="chip pr" href="https://github.com/CapSoftware/Cap/pull/2057" target="_blank" rel="noopener"><span class="src">pr</span><span>2057</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why was lifetime memory growing from the macOS permission check?</span></summary><div class="body"><p class="prose">The memory growth was caused by the macOS screen-recording permission check running a full <code>SCShareableContent</code> enumeration on threads that lacked an autorelease pool. Because this check was triggered repeatedly by polling callers throughout the process lifetime, the object graph from each call was leaked permanently.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/CapSoftware/Cap/pull/2064" target="_blank" rel="noopener"><span class="src">pr</span><span>2064</span></a></div></div></details><details data-verdict="unknown"><summary><span class="pill unknown">unknown</span><span>Why is the project called Cap?</span></summary><div class="body"><p class="hero">No one wrote this down.</p><p class="heronote">Icarus found no recorded reason, so it did not invent one. This is the whole point: it answers from evidence or it abstains.</p><div class="searched"><div class="k">What it searched</div><div class="v">code:apps/web/app/(site)/about/page.tsx<br>doc:apps/cli/skill/cap/SKILL.md<br>config:crates/automation/Cargo.toml<br>code:apps/web/components/pages/TestimonialsPage.tsx<br>config:docker-compose.template.yml<br>doc:apps/cli/README.md<br>issue:1668<br>config:docker-compose.coolify.yml</div></div></div></details>
+<div class="ask">
+  <div class="askrow">
+    <input disabled placeholder="Ask something else about CapSoftware/Cap…">
+    <button disabled>Ask</button>
+  </div>
+  <p class="asknote">This page is pre-computed, so it opens instantly and costs you nothing.
+  Reply to my email and I&rsquo;ll open a live session against your repo where you can
+  ask it anything.</p>
+</div>
+<footer>
+Answers on this page are unedited output from the same pipeline the product runs —
+retrieve, cite-or-abstain, then a deterministic gate that drops any answer whose citations
+aren&rsquo;t genuinely retrieved. Nothing here was written by hand.<br>
+Your code was read to answer these questions and discarded. It was not used for training.
+</footer>
+</div></body></html>
