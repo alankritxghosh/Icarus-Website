@@ -293,6 +293,44 @@ xattr -dr com.apple.quarantine /Applications/Icarus.app</pre>
   </div>
 </section>
 
+<section class="wrap">
+  <h2>The GitHub extension</h2>
+  <p>
+    Optional, and separate from the app. It puts Icarus on GitHub itself: select lines in a file,
+    ask what they do or why they are there, and get the same cited answer — or the same honest
+    "no one wrote this down" — without leaving the page.
+  </p>
+  <p>
+    It is not on the Chrome Web Store. That means installing it the developer way, and Chrome will
+    keep reminding you it is a developer-mode extension for as long as it is installed. That warning
+    is accurate and there is no way to remove it short of a store listing, so it is stated here
+    rather than discovered later.
+  </p>
+
+  <pre>1.  Download icarus-extension.zip below and unzip it
+2.  Open chrome://extensions and turn on "Developer mode"
+3.  Click "Load unpacked" and choose the unzipped folder
+4.  Click the Icarus toolbar icon and sign in with GitHub</pre>
+
+  <p class="meta">
+    It only acts on repositories you have already connected in Icarus, and only on file pages
+    (<code>github.com/owner/repo/blob/…</code>). On anything else it does nothing at all. It reads
+    the lines you select and sends them to the same brain the app talks to; it does not watch pages
+    you have not asked it about.
+  </p>
+  <p class="meta">
+    SHA-256 of <code>icarus-extension.zip</code> —
+    <code>aa79cd8cc43a45e10ae715ebdd63ef02c18f657d1eed43d590f23f7faf03b7d6</code><br />
+    Check yours with <code>shasum -a 256 icarus-extension.zip</code>. Unlike the app, the extension
+    has no auto-update — a new version means downloading and loading it again.
+  </p>
+
+  <div class="ctarow">
+    <a class="cta" href="icarus-extension.zip" download>↓ Download the extension</a>
+    <span class="meta">Chrome · version 0.1.1 · ~11 KB</span>
+  </div>
+</section>
+
 <footer class="wrap">
   <p style="margin:0 0 12px">
     Beta feedback, bugs, and questions →
