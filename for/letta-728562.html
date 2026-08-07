@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Icarus on letta-ai/letta-code</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--paper:#F7F6F2;--card:#FFF;--ink:#16181D;--muted:#6B7280;--line:#16181D;
+--hair:#E4E2DB;--accent:#2F6BFF;--grounded:#0F7B53;--unknown:#9A6B00;
+--mono:"Berkeley Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);}
+.wrap{max-width:820px;margin:0 auto;padding:44px 24px 90px;}
+.brand{display:flex;align-items:center;gap:9px;font-weight:650;font-size:18px;margin-bottom:26px;}
+.mark{display:inline-flex;align-items:flex-end;gap:2px;height:22px;}
+.mark i{width:3px;background:var(--ink);border-radius:1px;}
+.mark .b1{height:11px}.mark .b2{height:18px}.mark .stem{height:22px;background:var(--accent)}
+.mark .b4{height:14px}.mark .b5{height:8px}
+h1{font-size:27px;font-weight:650;margin:0 0 6px;letter-spacing:-.01em;}
+h1 .repo{font-family:var(--mono);font-size:24px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+.panel{border:1.5px solid var(--line);border-radius:4px;background:#fff;padding:14px 16px;margin:0 0 30px;}
+.panel .row{font:12px var(--mono);margin:0 0 7px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
+.panel .row:last-child{margin-bottom:0}
+.tag{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;
+background:var(--ink);padding:1px 6px;border-radius:3px;flex:none;}
+.tag.ok{background:var(--grounded)}
+.label{font:600 11px var(--sans);letter-spacing:.10em;text-transform:uppercase;margin:0 0 10px;color:var(--muted);}
+details{border:1.5px solid var(--line);border-radius:4px;background:var(--card);
+box-shadow:5px 5px 0 var(--line);margin:0 0 18px;}
+details[data-verdict="unknown"]{background:#FBF7EC}
+summary{cursor:pointer;list-style:none;padding:17px 20px;font-size:17px;font-weight:600;
+display:flex;gap:12px;align-items:flex-start;}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:#EFEEE8}
+details[data-verdict="unknown"] summary:hover{background:#F6EFDF}
+.pill{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;flex:none;
+padding:3px 7px;border-radius:3px;border:1.5px solid var(--grounded);color:var(--grounded);margin-top:3px;}
+.pill.unknown{border-color:var(--unknown);color:var(--unknown)}
+.body{padding:0 20px 20px;border-top:1.5px solid var(--hair);}
+.prose{font-size:17px;line-height:1.6;margin:16px 0 18px;white-space:pre-wrap;}
+.prose code{font-family:var(--mono);font-size:.92em;background:#EFEEE8;padding:1px 5px;border-radius:3px;}
+.hero{font-size:26px;font-weight:650;margin:16px 0 8px;line-height:1.2;}
+.heronote{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:540px;}
+.cites{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:13px;
+border:1.5px solid var(--line);border-radius:4px;padding:5px 10px;background:#fff;
+color:var(--ink);text-decoration:none;}
+.chip:hover{box-shadow:2px 2px 0 var(--accent)}
+.chip .src{font:600 10px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;
+background:var(--ink);padding:1px 5px;border-radius:3px;}
+.chip.pr .src{background:var(--accent)}.chip.issue .src{background:var(--unknown)}
+.chip.code .src,.chip.doc .src,.chip.config .src{background:var(--grounded)}
+.chip.commit .src{background:#5B4B8A}
+.searched{border:1.5px solid var(--line);border-radius:4px;background:#fff;padding:12px 14px;}
+.searched .k{font:600 11px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.searched .v{font-family:var(--mono);font-size:12.5px;margin-top:7px;line-height:1.9;word-break:break-word;}
+.ask{margin-top:34px;border-top:1.5px solid var(--hair);padding-top:26px;}
+.askrow{display:flex;gap:10px;}
+.askrow input{flex:1;padding:13px 15px;border:1.5px solid var(--line);border-radius:4px;
+background:#fff;font-size:16px;font-family:var(--sans);color:var(--muted);}
+.askrow button{padding:13px 22px;border:1.5px solid var(--line);border-radius:4px;
+background:var(--accent);color:#fff;font-weight:650;font-size:15px;box-shadow:3px 3px 0 var(--line);}
+.askrow input:disabled,.askrow button:disabled{opacity:.55}
+.asknote{font-size:14px;color:var(--muted);margin:12px 0 0;}
+footer{margin-top:40px;border-top:1.5px solid var(--hair);padding-top:16px;
+font-size:13px;color:var(--muted);line-height:1.7;}
+@media (max-width:560px){.wrap{padding:28px 16px 70px}h1{font-size:22px}h1 .repo{font-size:18px}}
+</style></head><body><div class="wrap">
+<div class="brand"><span class="mark"><i class="b1"></i><i class="b2"></i><i class="stem"></i><i class="b4"></i><i class="b5"></i></span><span>Icarus</span></div>
+<h1>Icarus, reading <span class="repo">letta-ai/letta-code</span></h1>
+<p class="sub">Real questions, answered from your own repository. Every answer links to the
+evidence it used. 9 of 10 were answerable — the rest say so.</p>
+<div class="panel">
+  <div class="row"><span class="tag ok">indexed</span><span>3,270 pr  ·  450 issue  ·  3,027 commit  ·  13,727 code  ·  216 doc  ·  19 config</span></div>
+  <div class="row"><span class="tag">commit</span><span>ac359eeb70f9</span></div>
+</div>
+<p class="label">Questions a new contributor would ask</p>
+<details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does the server propagate retry events to the listener?</span></summary><div class="body"><p class="prose">The server propagates retry events to the listener to convert server <code>retry_message</code> chunks into a canonical retry lifecycle message, which allows for client rendering, diagnostics, and visibility of retries in the transcript.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/letta-ai/letta-code/pull/3709" target="_blank" rel="noopener"><span class="src">pr</span><span>3709</span></a></div></div></details><details data-verdict="unknown"><summary><span class="pill unknown">unknown</span><span>Why is the project named Letta?</span></summary><div class="body"><p class="hero">No one wrote this down.</p><p class="heronote">Icarus found no recorded reason, so it did not invent one. This is the whole point: it answers from evidence or it abstains.</p><div class="searched"><div class="k">What it searched</div><div class="v"></div></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does the listener support environment skill directories?</span></summary><div class="body"><p class="prose">The listener supports environment skill directories to allow managed runtimes to roll out the setting without breaking older listener builds and to accept a <code>--skills &lt;path&gt;</code> argument on remote listeners.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/letta-ai/letta-code/pull/3722" target="_blank" rel="noopener"><span class="src">pr</span><span>3722</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does the client tool loader only load tools named in the allowlist?</span></summary><div class="body"><p class="prose">The allowlist is used to filter the tools available to a client, ensuring that only authorized tools are loaded and accessible during a session. This prevents issues where requested tools not present in the default base would otherwise result in the agent silently finding nothing instead of returning an error.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/letta-ai/letta-code/pull/3721" target="_blank" rel="noopener"><span class="src">pr</span><span>3721</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does a wedged HTTP read get aborted after a terminal SSE sequence?</span></summary><div class="body"><p class="prose">A wedged HTTP read is aborted because the client&#x27;s iterator hangs indefinitely when the server fails to report an EOF for the HTTP response body, even after sending the terminal SSE sequence. The guard detects this sustained silence following the terminal sequence and aborts the stream controller to allow the SDK to proceed with the data it has already received.</p><p class="label">Evidence</p><div class="cites"><a class="chip commit" href="https://github.com/letta-ai/letta-code/commit/91352d426b3ae4481c90fa5fd5e63ac267e24745" target="_blank" rel="noopener"><span class="src">commit</span><span>91352d4</span></a><a class="chip code" href="https://github.com/letta-ai/letta-code/blob/ac359eeb70f9930d3c5a6a6a041a3e040712726a/src/cli/helpers/stream-terminal-eof-guard.ts#L1-L27" target="_blank" rel="noopener"><span class="src">code</span><span>src/cli/helpers/stream-terminal-eof-guard.ts#L1-L27</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why do direct turns stay on process transport?</span></summary><div class="body"><p class="prose">Direct turns are routed through the process-scoped transport to ensure that if a WebSocket connection closes during approval, the turn can continue through a replacement connection or another subscribed client. This change ensures the transport&#x27;s open state follows the current connection set rather than being tied to the originating WebSocket.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/letta-ai/letta-code/pull/3717" target="_blank" rel="noopener"><span class="src">pr</span><span>3717</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why does cron fall back to a local schedule when Cloud cannot reach this computer?</span></summary><div class="body"><p class="prose">Cron falls back to a local schedule because the computer is not in the environments registry, meaning the Cloud scheduler cannot reach it. Storing the schedule locally is the only way to ensure the work continues to execute where the conversation lives.</p><p class="label">Evidence</p><div class="cites"><a class="chip commit" href="https://github.com/letta-ai/letta-code/commit/ee9d96f06677275c917a321f37c4238d52e6e34f" target="_blank" rel="noopener"><span class="src">commit</span><span>ee9d96f</span></a><a class="chip code" href="https://github.com/letta-ai/letta-code/blob/ac359eeb70f9930d3c5a6a6a041a3e040712726a/src/cli/subcommands/cron-runner.ts#L160-L194" target="_blank" rel="noopener"><span class="src">code</span><span>src/cli/subcommands/cron-runner.ts#L160-L194</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why did MessageChannel become gateway-owned?</span></summary><div class="body"><p class="prose">MessageChannel became gateway-owned to remove the listener-owned built-in registration and duplicate implementation, allowing the tool to work for every routed conversation, including scheduled turns.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/letta-ai/letta-code/pull/3687" target="_blank" rel="noopener"><span class="src">pr</span><span>3687</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why are repeated outbound actions deduplicated in channels?</span></summary><div class="body"><p class="prose">Repeated outbound actions are deduplicated because each new tool-call ID currently executes the channel adapter again, which can result in one inbound message producing several identical external replies. Deduplication ensures that identical calls within one active channel turn share the first successful result.</p><p class="label">Evidence</p><div class="cites"><a class="chip pr" href="https://github.com/letta-ai/letta-code/pull/3704" target="_blank" rel="noopener"><span class="src">pr</span><span>3704</span></a></div></div></details><details data-verdict="answer"><summary><span class="pill">answered</span><span>Why is Letta built as a stateful agent instead of a stateless one?</span></summary><div class="body"><p class="prose">Letta Code is built as a stateful agent so that it can possess memory, identity, and a sense of experience over time, allowing it to learn and evolve by rewriting its own memory, skills, and prompts.</p><p class="label">Evidence</p><div class="cites"><a class="chip doc" href="https://github.com/letta-ai/letta-code/blob/ac359eeb70f9930d3c5a6a6a041a3e040712726a/README.md" target="_blank" rel="noopener"><span class="src">doc</span><span>README.md</span></a></div></div></details>
+<div class="ask">
+  <div class="askrow">
+    <input disabled placeholder="Ask something else about letta-ai/letta-code…">
+    <button disabled>Ask</button>
+  </div>
+  <p class="asknote">This page is pre-computed, so it opens instantly and costs you nothing.
+  Reply to my email and I&rsquo;ll open a live session against your repo where you can
+  ask it anything.</p>
+</div>
+<footer>
+Answers on this page are unedited output from the same pipeline the product runs —
+retrieve, cite-or-abstain, then a deterministic gate that drops any answer whose citations
+aren&rsquo;t genuinely retrieved. Nothing here was written by hand.<br>
+Your code was read to answer these questions and discarded. It was not used for training.
+</footer>
+</div></body></html>
